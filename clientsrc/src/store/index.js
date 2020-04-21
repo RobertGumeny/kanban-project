@@ -21,7 +21,12 @@ export default new Vuex.Store({
     user: {},
     boards: [],
     activeBoard: {},
+    activeLists: [],
+    tasks: {
+
+    }
   },
+  //SECTION MUTATIONS
   mutations: {
     setUser(state, user) {
       state.user = user;
@@ -32,10 +37,16 @@ export default new Vuex.Store({
     setActiveBoard(state, board) {
       state.activeBoard = board;
     },
+    setActiveLists(state, lists) {
+      state.activeLists = lists;
+    },
+    setActiveTasks(state, payload) {
+      Vue.set(state.tasks, payload.listId, payload.tasks)
+    }
   },
   actions: {
-    //#region -- AUTH STUFF --
-    setBearer({}, bearer) {
+    //#SECTION Auth Stuff
+    setBearer({ }, bearer) {
       api.defaults.headers.authorization = bearer;
     },
     resetBearer() {
@@ -49,9 +60,9 @@ export default new Vuex.Store({
         console.error(err);
       }
     },
-    //#endregion
+    //!SECTION
 
-    //#region -- BOARDS --
+    //SECTION Boards requests
     async getBoards({ commit, dispatch }) {
       try {
         let res = await api.get("boards");
@@ -95,10 +106,76 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
-    //#endregion
+    //!SECTION
 
-    //#region -- LISTS --
+    //SECTION Lists
+    async addList({ commit, dispatch }, listData) {
+      try {
+        await api.post("lists", listData);
+        dispatch("getBoardById", listData.boardId);
+        dispatch("getListsByBoardId", listData.boardId)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getListsByBoardId({ commit, dispatch }, boardId) {
+      try {
+        let res = await api.get('boards/' + boardId + '/lists')
+        commit('setActiveLists', res.data)
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async deleteList({ commit, dispatch }, listData) {
+      try {
+        await api.delete('lists/' + listData._id)
+        dispatch('getBoardById', listData.boardId)
+        dispatch('getListsByBoardId', listData.boardId)
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async editList({ commit, dispatch }, listData) {
+      try {
+        await api.put("lists/" + listData.id, listData);
+      } catch (error) {
+        console.error(error);
+      }
+    },
 
-    //#endregion
+
+    //!SECTION
+
+    //SECTION Tasks
+    //TODO Add tasks, give them a unique listId, add array of tasks @ listId to state => ask someone for help with vue-set
+    async getTasksByListId({ commit, dispatch }, listId) {
+      try {
+        let res = await api.get('lists/' + listId + '/tasks')
+        commit('setActiveTasks', { listId, tasks: res.data })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async addTask({ commit, dispatch }, taskData) {
+      try {
+        await api.post("tasks", taskData);
+        dispatch('getTasksByListId', taskData.listId)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deleteTask({ commit, dispatch }, taskData) {
+      try {
+        await api.delete('tasks/' + taskData.id)
+        dispatch('getTasksByListId', taskData.listId)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    //!SECTION
+
+    //SECTION Comments
+    //!SECTION
   },
 });
