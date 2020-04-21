@@ -21,6 +21,7 @@ export default new Vuex.Store({
     user: {},
     boards: [],
     activeBoard: {},
+    activeLists: []
   },
   mutations: {
     setUser(state, user) {
@@ -32,10 +33,13 @@ export default new Vuex.Store({
     setActiveBoard(state, board) {
       state.activeBoard = board;
     },
+    setActiveLists(state, lists) {
+      state.activeLists = lists;
+    }
   },
   actions: {
-    //#region -- AUTH STUFF --
-    setBearer({}, bearer) {
+    //#SECTION Auth Stuff
+    setBearer({ }, bearer) {
       api.defaults.headers.authorization = bearer;
     },
     resetBearer() {
@@ -49,9 +53,9 @@ export default new Vuex.Store({
         console.error(err);
       }
     },
-    //#endregion
+    //!SECTION
 
-    //#region -- BOARDS --
+    //SECTION Boards requests
     async getBoards({ commit, dispatch }) {
       try {
         let res = await api.get("boards");
@@ -95,10 +99,43 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
-    //#endregion
+    //!SECTION
 
-    //#region -- LISTS --
+    //SECTION Lists
+    async addList({ commit, dispatch }, listData) {
+      try {
+        await api.post("lists", listData);
+        dispatch("getBoardById", listData.boardId);
+        dispatch("getListsByBoardId", listData.boardId)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getListsByBoardId({ commit, dispatch }, boardId) {
+      try {
+        let res = await api.get('boards/' + boardId + '/lists')
+        commit('setActiveLists', res.data)
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async deleteList({ commit, dispatch }, listData) {
+      try {
+        await api.delete('lists/' + listData._id)
+        dispatch('getBoardById', listData.boardId)
+        dispatch('getListsByBoardId', listData.boardId)
+      } catch (error) {
+        console.error(error)
+      }
+    },
 
-    //#endregion
+
+    //!SECTION
+
+    //SECTION Tasks
+    //!SECTION
+
+    //SECTION Comments
+    //!SECTION
   },
 });
