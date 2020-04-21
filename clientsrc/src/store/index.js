@@ -21,8 +21,12 @@ export default new Vuex.Store({
     user: {},
     boards: [],
     activeBoard: {},
-    activeLists: []
+    activeLists: [],
+    tasks: {
+
+    }
   },
+  //SECTION MUTATIONS
   mutations: {
     setUser(state, user) {
       state.user = user;
@@ -35,6 +39,9 @@ export default new Vuex.Store({
     },
     setActiveLists(state, lists) {
       state.activeLists = lists;
+    },
+    setActiveTasks(state, payload) {
+      Vue.set(state.tasks, payload.listId, payload.tasks)
     }
   },
   actions: {
@@ -128,11 +135,44 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
+    async editList({ commit, dispatch }, listData) {
+      try {
+        await api.put("lists/" + listData.id, listData);
+      } catch (error) {
+        console.error(error);
+      }
+    },
 
 
     //!SECTION
 
     //SECTION Tasks
+    //TODO Add tasks, give them a unique listId, add array of tasks @ listId to state => ask someone for help with vue-set
+    async getTasksByListId({ commit, dispatch }, listId) {
+      try {
+        let res = await api.get('lists/' + listId + '/tasks')
+        commit('setActiveTasks', { listId, tasks: res.data })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async addTask({ commit, dispatch }, taskData) {
+      try {
+        await api.post("tasks", taskData);
+        dispatch('getTasksByListId', taskData.listId)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deleteTask({ commit, dispatch }, taskData) {
+      try {
+        await api.delete('tasks/' + taskData.id)
+        dispatch('getTasksByListId', taskData.listId)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
     //!SECTION
 
     //SECTION Comments
