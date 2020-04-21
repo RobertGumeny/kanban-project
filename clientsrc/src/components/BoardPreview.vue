@@ -3,7 +3,7 @@
     <div class="card">
       <h3>{{boardData.title}}</h3>
       <h4>{{boardData.description}}</h4>
-      <button>Open</button>
+      <button @click="openBoard()">Open</button>
       <button @click="deleteBoard()">Delete</button>
     </div>
   </div>
@@ -29,6 +29,13 @@ export default {
   methods: {
     deleteBoard() {
       this.$store.dispatch("deleteBoard", this.boardData.id);
+    },
+    openBoard() {
+      this.$store.commit("setActiveBoard", {});
+      this.$router.push({
+        name: "board",
+        params: { boardId: this.boardData.id }
+      });
     }
   },
   components: {}

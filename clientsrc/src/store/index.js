@@ -62,6 +62,15 @@ export default new Vuex.Store({
       }
     },
 
+    async getBoardById({ commit, dispatch }, boardId) {
+      try {
+        let res = await api.get("boards/" + boardId);
+        commit("setActiveBoard", res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     async addBoard({ commit, dispatch }, boardData) {
       try {
         api.post("boards", boardData);
