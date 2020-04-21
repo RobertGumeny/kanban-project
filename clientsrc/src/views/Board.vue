@@ -5,6 +5,8 @@
         <h1>
           {{board.title}}
           <button @click="deleteBoard()">Delete</button>
+          <button @click="triggerEdit()" data-toggle="modal" data-target="#editModal">Edit</button>
+          <EditModal id="editModal" />
         </h1>
         <h3>{{board.description}}</h3>
       </div>
@@ -19,6 +21,7 @@
 </template>
 
 <script>
+import EditModal from "../components/EditModal.vue";
 export default {
   name: "board",
   computed: {
@@ -37,8 +40,12 @@ export default {
     deleteBoard() {
       this.$store.dispatch("deleteBoard", this.board.id);
       this.$router.push({ name: "boards" });
+    },
+    triggerEdit() {
+      this.$store.commit("setActiveBoard", this.board);
     }
   },
-  props: ["boardId"]
+  props: ["boardId"],
+  components: { EditModal }
 };
 </script>

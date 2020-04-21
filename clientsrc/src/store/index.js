@@ -88,6 +88,13 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
+    async editBoard({ commit, dispatch }, boardData) {
+      try {
+        await api.put("boards/" + boardData.id, boardData);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     //#endregion
 
     //#region -- LISTS --
