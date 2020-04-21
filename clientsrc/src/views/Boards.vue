@@ -1,18 +1,29 @@
 <template>
-  <div class="boards">
+  <div class="boards container-fluid">
     WELCOME TO THE BOARDS!!!
-    <form @submit.prevent="addBoard">
-      <input type="text" placeholder="title" v-model="newBoard.title" required />
-      <input type="text" placeholder="description" v-model="newBoard.description" />
-      <button type="submit">Create Board</button>
-    </form>
-    <div v-for="board in boards" :key="board.id">
-      <router-link :to="{name: 'board', params: {boardId: board.id}}">{{}}">{{board.title}}</router-link>
+    <div class="row">
+      <div class="col-6 mx-auto">
+        <form @submit.prevent="addBoard">
+          <input type="text" placeholder="title" v-model="newBoard.title" required />
+          <input type="text" placeholder="description" v-model="newBoard.description" />
+          <button type="submit">Create Board</button>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card-deck">
+          <boardPreview v-for="board in boards" :boardData="board" :key="board.id">
+            <!-- <router-link :to="{name: 'board', params: {boardId: board.id}}">{{board.title}}</router-link> -->
+          </boardPreview>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import boardPreview from "../components/BoardPreview.vue";
 export default {
   name: "boards",
   mounted() {
@@ -29,6 +40,9 @@ export default {
   computed: {
     boards() {
       return this.$store.state.boards;
+    },
+    user() {
+      return this.$store.user;
     }
   },
   methods: {
@@ -36,6 +50,7 @@ export default {
       this.$store.dispatch("addBoard", this.newBoard);
       this.newBoard = { title: "", description: "" };
     }
-  }
+  },
+  components: { boardPreview }
 };
 </script>

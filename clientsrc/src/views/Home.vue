@@ -11,7 +11,11 @@ export default {
   data() {
     return {};
   },
-  computed: {},
+  computed: {
+    user(){
+    return this.$store.user
+    },
+  },
   methods: {},
   components: {}
 };
