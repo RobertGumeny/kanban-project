@@ -12,7 +12,10 @@ export default {
     board() {
       //FIXME This does not work on page reload because the activeBoard is empty in the store
       return this.$store.state.activeBoard;
-    }
+    },
+    user(){
+    return this.$store.user
+    },
   },
   props: ["boardId"]
 };
