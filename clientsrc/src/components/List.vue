@@ -1,21 +1,27 @@
 <template>
-  <div class="list col-3">
-    <span>
+  <div class="list col-sm-3 border m-2 mx-3 p-2">
+    <div class="d-flex justify-content-between align-items-center mr-1">
       <h3>{{listData.title}}</h3>
-      <button @click="deleteList()">Delete List</button>
-    </span>
+      <button class="btn mb-2" @click="deleteList()">
+        <i class="fas fa-trash-alt text-danger fa-sm"></i>
+      </button>
+    </div>
     <ul class="list-unstyled">
       <Task v-for="task in tasks" :taskData="task" :key="task.id" />
     </ul>
-    <div class="input-group">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Add a task here..."
-        v-model="newTask.title"
-      />
-      <div class="input-group-append">
-        <button @click="addTask()">Add</button>
+    <div class="form-row">
+      <div class="col-9">
+        <input
+          type="text"
+          class="form-control add-task-form"
+          placeholder="Add a task here..."
+          v-model="newTask.title"
+        />
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary add-task-form mb-2" @click="addTask()">
+          <i class="fas fa-plus text-white pb-2"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -70,4 +76,7 @@ export default {
 
 
 <style scoped>
+.add-task-form {
+  height: 75%;
+}
 </style>

@@ -1,21 +1,39 @@
 <template>
   <div class="boards container-fluid">
-    WELCOME TO THE BOARDS!!!
     <div class="row">
-      <div class="col-6 mx-auto">
+      <div class="col-sm-8 mx-auto my-4">
         <form @submit.prevent="addBoard">
-          <input type="text" placeholder="title" v-model="newBoard.title" required />
-          <input type="text" placeholder="description" v-model="newBoard.description" />
-          <button type="submit">Create Board</button>
+          <div class="form-row">
+            <div class="col">
+              <input
+                class="form-control form-control-sm m-1"
+                type="text"
+                maxlength="50"
+                placeholder="Board title..."
+                v-model="newBoard.title"
+                required
+              />
+            </div>
+            <div class="col">
+              <input
+                class="form-control form-control-sm m-1"
+                type="text"
+                maxlength="100"
+                placeholder="Description..."
+                v-model="newBoard.description"
+              />
+            </div>
+            <div class="col">
+              <button class="btn btn-sm btn-warning mt-1" type="submit">Create</button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
         <div class="card-deck">
-          <boardPreview v-for="board in boards" :boardData="board" :key="board.id">
-            <!-- <router-link :to="{name: 'board', params: {boardId: board.id}}">{{board.title}}</router-link> -->
-          </boardPreview>
+          <boardPreview v-for="board in boards" :boardData="board" :key="board.id"></boardPreview>
         </div>
       </div>
     </div>
