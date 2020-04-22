@@ -15,8 +15,8 @@ export default {
   computed: {},
   methods: {
     moveTask() {
-      // console.log(this.targetData._id);
       this.$store.dispatch("moveTask", {
+        oldListId: this.taskData.listId,
         taskId: this.taskData.id,
         newListId: this.targetData.id,
         boardId: this.targetData.boardId
