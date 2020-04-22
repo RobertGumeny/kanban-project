@@ -169,6 +169,19 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
+    async moveTask({ commit, dispatch }, taskData) {
+      try {
+        await api.put("tasks/" + taskData.taskId, {
+          listId: taskData.newListId,
+        });
+        // THIS PART NEEDS UPDATED - NOT IMMEIDATE
+        dispatch("getBoardById", taskData.boardId);
+        // ashley testing a theory below
+        // dispatch("getListsByBoardId", taskData.boardId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
 
     //!SECTION
 
