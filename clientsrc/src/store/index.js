@@ -174,14 +174,8 @@ export default new Vuex.Store({
         await api.put("tasks/" + taskData.taskId, {
           listId: taskData.newListId,
         });
-        // dispatch("getBoardById", taskData.boardId);
-        // dispatch("getListsByBoardId", taskData.boardId);
         dispatch("getTasksByListId", taskData.newListId);
         dispatch("getTasksByListId", taskData.oldListId);
-        // THIS PART NEEDS UPDATED - NOT IMMEIDATE
-        // dispatch("getBoardById", taskData.boardId);
-        // ashley testing a theory below
-        // dispatch("getListsByBoardId", taskData.boardId);
       } catch (error) {
         console.error(error);
       }
