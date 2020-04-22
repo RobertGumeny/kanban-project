@@ -189,7 +189,7 @@ export default new Vuex.Store({
         await api.delete(
           "tasks/" + commentData.taskId + "/comments/" + commentData.comment._id
         );
-        // dispatch("getTasksByListId", commentData.listId);
+        dispatch("getTasksByListId", commentData.listId);
       } catch (error) {
         console.error(error);
       }

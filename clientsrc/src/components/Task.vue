@@ -8,7 +8,7 @@
           <comment
             v-for="comment in comments"
             :commentData="comment"
-            :taskId="taskData.id"
+            :taskData="taskData"
             :key="comment.id"
           ></comment>
         </ul>
@@ -23,6 +23,26 @@
           <div class="input-group-append">
             <button @click="addComment()">+</button>
           </div>
+          <div class="move-task">
+            <div class="dropdown">
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenu2"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >Dropdown</button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <ListTarget
+                  v-for="list in lists"
+                  :key="list.id"
+                  :targetData="list"
+                  :taskData="taskData"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </span>
     </li>
@@ -31,6 +51,7 @@
 
 
 <script>
+import ListTarget from "../components/ListTarget.vue";
 import comment from "../components/Comment.vue";
 export default {
   name: "task",
@@ -43,6 +64,9 @@ export default {
   computed: {
     comments() {
       return this.taskData.comments;
+    },
+    lists() {
+      return this.$store.state.activeLists;
     }
   },
   methods: {
@@ -56,7 +80,7 @@ export default {
       this.newComment = {};
     }
   },
-  components: { comment }
+  components: { comment, ListTarget }
 };
 </script>
 

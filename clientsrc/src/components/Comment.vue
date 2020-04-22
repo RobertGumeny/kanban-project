@@ -9,21 +9,17 @@
 <script>
 export default {
   name: "comment",
-  props: ["commentData", "taskId"],
+  props: ["commentData", "taskData"],
   data() {
     return {};
   },
-  computed: {
-    // activeTask() {
-    //   return;
-    // }
-  },
+  computed: {},
   methods: {
     deleteComment() {
-      // console.log(this.commentData, this.taskId);
       this.$store.dispatch("deleteComment", {
         comment: this.commentData,
-        taskId: this.taskId
+        taskId: this.taskData._id,
+        listId: this.taskData.listId
       });
     }
   },
