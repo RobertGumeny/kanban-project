@@ -44,7 +44,7 @@ export default new Vuex.Store({
   },
   actions: {
     //#SECTION Auth Stuff
-    setBearer({}, bearer) {
+    setBearer({ }, bearer) {
       api.defaults.headers.authorization = bearer;
     },
     resetBearer() {

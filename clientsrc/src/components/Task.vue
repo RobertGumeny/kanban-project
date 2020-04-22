@@ -26,7 +26,7 @@
           <div class="move-task">
             <div class="dropdown">
               <button
-                class="btn btn-secondary dropdown-toggle"
+                class="btn btn-primary dropdown-toggle"
                 type="button"
                 id="dropdownMenu2"
                 data-toggle="dropdown"

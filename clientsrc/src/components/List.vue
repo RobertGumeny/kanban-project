@@ -1,9 +1,11 @@
 <template>
-  <div class="list col-3">
-    <span>
+  <div class="list col-3 border p-2">
+    <div class="d-flex align-items-center">
       <h3>{{listData.title}}</h3>
-      <button @click="deleteList()">Delete List</button>
-    </span>
+      <button class="btn mb-2" @click="deleteList()">
+        <i class="fas fa-trash-alt text-danger fa-sm"></i>
+      </button>
+    </div>
     <ul class="list-unstyled">
       <Task v-for="task in tasks" :taskData="task" :key="task.id" />
     </ul>

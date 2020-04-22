@@ -1,10 +1,12 @@
 <template>
-  <div class="board-preview">
-    <div class="card">
-      <h3>{{boardData.title}}</h3>
-      <h4>{{boardData.description}}</h4>
-      <button @click="openBoard()">Open</button>
-      <button @click="deleteBoard()">Delete</button>
+  <div class="board-preview col-sm-4">
+    <div class="card mb-3">
+      <h3 class="text-wrap p-2">{{boardData.title}}</h3>
+      <h6 class="text-muted text-wrap p-2">{{boardData.description}}</h6>
+      <div class="text-center m-2">
+        <button class="btn btn-sm btn-outline-primary" @click="openBoard()">Open</button>
+        <button class="btn btn-sm btn-outline-danger" @click="deleteBoard()">Delete</button>
+      </div>
     </div>
   </div>
 </template>
