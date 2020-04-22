@@ -46,6 +46,9 @@ export default {
       return this.$store.state.tasks[this.listData.id];
     }
   },
+  // updated() {
+  //   this.$store.dispatch("getTasksByListId", this.listData.id);
+  // },
   methods: {
     deleteList() {
       this.$store.dispatch("deleteList", this.listData);
