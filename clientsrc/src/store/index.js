@@ -22,9 +22,7 @@ export default new Vuex.Store({
     boards: [],
     activeBoard: {},
     activeLists: [],
-    tasks: {
-
-    }
+    tasks: {},
   },
   //SECTION MUTATIONS
   mutations: {
@@ -41,12 +39,12 @@ export default new Vuex.Store({
       state.activeLists = lists;
     },
     setActiveTasks(state, payload) {
-      Vue.set(state.tasks, payload.listId, payload.tasks)
-    }
+      Vue.set(state.tasks, payload.listId, payload.tasks);
+    },
   },
   actions: {
     //#SECTION Auth Stuff
-    setBearer({ }, bearer) {
+    setBearer({}, bearer) {
       api.defaults.headers.authorization = bearer;
     },
     resetBearer() {
@@ -113,26 +111,26 @@ export default new Vuex.Store({
       try {
         await api.post("lists", listData);
         dispatch("getBoardById", listData.boardId);
-        dispatch("getListsByBoardId", listData.boardId)
+        dispatch("getListsByBoardId", listData.boardId);
       } catch (error) {
         console.error(error);
       }
     },
     async getListsByBoardId({ commit, dispatch }, boardId) {
       try {
-        let res = await api.get('boards/' + boardId + '/lists')
-        commit('setActiveLists', res.data)
+        let res = await api.get("boards/" + boardId + "/lists");
+        commit("setActiveLists", res.data);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     },
     async deleteList({ commit, dispatch }, listData) {
       try {
-        await api.delete('lists/' + listData._id)
-        dispatch('getBoardById', listData.boardId)
-        dispatch('getListsByBoardId', listData.boardId)
+        await api.delete("lists/" + listData._id);
+        dispatch("getBoardById", listData.boardId);
+        dispatch("getListsByBoardId", listData.boardId);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     },
     async editList({ commit, dispatch }, listData) {
@@ -143,39 +141,73 @@ export default new Vuex.Store({
       }
     },
 
-
     //!SECTION
 
     //SECTION Tasks
     //TODO Add tasks, give them a unique listId, add array of tasks @ listId to state => ask someone for help with vue-set
     async getTasksByListId({ commit, dispatch }, listId) {
       try {
-        let res = await api.get('lists/' + listId + '/tasks')
-        commit('setActiveTasks', { listId, tasks: res.data })
+        let res = await api.get("lists/" + listId + "/tasks");
+        commit("setActiveTasks", { listId, tasks: res.data });
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     },
     async addTask({ commit, dispatch }, taskData) {
       try {
         await api.post("tasks", taskData);
-        dispatch('getTasksByListId', taskData.listId)
+        dispatch("getTasksByListId", taskData.listId);
       } catch (error) {
         console.error(error);
       }
     },
     async deleteTask({ commit, dispatch }, taskData) {
       try {
-        await api.delete('tasks/' + taskData.id)
-        dispatch('getTasksByListId', taskData.listId)
+        await api.delete("tasks/" + taskData.id);
+        dispatch("getTasksByListId", taskData.listId);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-    }
+    },
+    async moveTask({ commit, dispatch }, taskData) {
+      try {
+        await api.put("tasks/" + taskData.taskId, {
+          listId: taskData.newListId,
+        });
+        // THIS PART NEEDS UPDATED - NOT IMMEIDATE
+        dispatch("getBoardById", taskData.boardId);
+        // ashley testing a theory below
+        // dispatch("getListsByBoardId", taskData.boardId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
 
     //!SECTION
 
     //SECTION Comments
+    async createComment({ commit, dispatch }, commentData) {
+      try {
+        await api.post(
+          "tasks/" + commentData.taskId + "/comments",
+          commentData
+        );
+        dispatch("getTasksByListId", commentData.listId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deleteComment({ commit, dispatch }, commentData) {
+      try {
+        await api.delete(
+          "tasks/" + commentData.taskId + "/comments/" + commentData.comment._id
+        );
+        dispatch("getTasksByListId", commentData.listId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     //!SECTION
   },
 });
