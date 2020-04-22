@@ -15,23 +15,50 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" :class="{ active: $route.name == 'home' }">
-          <router-link :to="{ name: 'home' }" class="nav-link">Home</router-link>
+          <router-link :to="{ name: 'home' }" class="nav-link">
+            <i class="fas fa-home"></i> Home
+          </router-link>
         </li>
         <li
           class="nav-item"
           v-if="$auth.isAuthenticated"
           :class="{ active: $route.name == 'boards' }"
         >
-          <router-link class="nav-link" :to="{ name: 'boards' }">My-Dashboard</router-link>
+          <router-link class="nav-link" :to="{ name: 'boards' }">
+            <i class="fab fa-trello"></i> Dashboard
+          </router-link>
         </li>
       </ul>
-      <span class="navbar-text">
+
+      <div class="navbar-nav ml-auto">
+        <button class="btn btn-outline-secondary" @click="login" v-if="!$auth.isAuthenticated">Login</button>
+        <div class="nav-item btn-group" v-else>
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdownMenuLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <img class="avatar" :src="user.picture" :alt="user.name" />
+          </a>
+
+          <div class="dropdown-menu dropdown-menu-right">
+            <router-link class="dropdown-item" :to="{ name: 'boards' }">Dashboard</router-link>
+            <button class="dropdown-item text-danger" @click="logout" type="button">Logout</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- <span class="navbar-text">
         <button class="btn btn-success" @click="login" v-if="!$auth.isAuthenticated">Login</button>
         <button class="btn btn-danger" @click="logout" v-else>logout</button>
-      </span>
+      </span>-->
     </div>
   </nav>
 </template>
+
 
 <script>
 import axios from "axios";
@@ -53,9 +80,23 @@ export default {
     async logout() {
       this.$store.dispatch("resetBearer");
       await this.$auth.logout({ returnTo: window.location.origin });
+    },
+    checkUser() {
+      console.log(this.user);
+    }
+  },
+  computed: {
+    user() {
+      return this.$auth.user;
     }
   }
 };
 </script>
 
-<style></style>
+<style>
+.avatar {
+  border-radius: 50%;
+  height: 3rem;
+  border: 1px solid #e1eef4;
+}
+</style>

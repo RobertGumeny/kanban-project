@@ -1,36 +1,45 @@
 <template>
   <div class="board container-fluid">
-    <div class="row justify-content-between">
-      <div class="col-10">
-        <div class="d-flex">
+    <div class="row mt-4">
+      <div class="col-sm-9">
+        <div class="d-flex align-items-center">
           <h1>{{board.title}}</h1>
-          <button class="m-1" @click="deleteBoard()">Delete</button>
+
+          <button class="btn mb-2" @click="deleteBoard()">
+            <i class="fas fa-trash-alt text-danger"></i>
+          </button>
           <button
-            class="m-1"
+            class="btn board-edit-button mb-2"
             @click="triggerEdit()"
             data-toggle="modal"
             data-target="#editModal"
-          >Edit</button>
+          >
+            <i class="fas fa-pencil-alt text-warning"></i>
+          </button>
         </div>
         <EditModal id="editModal" />
 
-        <h3>{{board.description}}</h3>
+        <h3 class="text-muted pl-3">{{board.description}}</h3>
       </div>
-      <div class="col-2">
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Add a list here..."
-            v-model="newList.title"
-          />
-          <div class="input-group-append">
-            <button @click="addList()">Add</button>
+      <div class="col-sm-3">
+        <div class="form-row">
+          <div class="col-9">
+            <input
+              type="text"
+              class="form-control add-list-form"
+              placeholder="Add a list here..."
+              v-model="newList.title"
+            />
+          </div>
+          <div class="col-3">
+            <button class="btn border-none btn-primary mb-2 add-list-form" @click="addList()">
+              <i class="fas fa-plus text-white pb-2"></i>
+            </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row mt-4">
       <List v-for="list in lists" :listData="list" :key="list.id" />
     </div>
   </div>
@@ -85,3 +94,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.board-edit-button {
+  margin-left: -30px;
+}
+.add-list-form {
+  height: 75%;
+}
+</style>
