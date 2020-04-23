@@ -1,7 +1,7 @@
 <template>
-  <div class="list col-sm-3 border m-2 mx-3 p-2">
+  <div class="list col-md-3 bg-dark mt-3 mx-2 p-2">
     <div class="d-flex justify-content-between align-items-center mr-1">
-      <h3>{{listData.title}}</h3>
+      <h3 class="text-light">{{listData.title}}</h3>
       <button class="btn mb-2" @click="deleteList()">
         <i class="fas fa-trash-alt text-danger fa-sm"></i>
       </button>
@@ -13,14 +13,14 @@
       <div class="col-9">
         <input
           type="text"
-          class="form-control add-task-form"
+          class="form-control form-control-sm add-task-form"
           placeholder="Add a task here..."
           v-model="newTask.title"
         />
       </div>
       <div class="col-3">
-        <button class="btn btn-primary add-task-form mb-2" @click="addTask()">
-          <i class="fas fa-plus text-white pb-2"></i>
+        <button class="btn btn-sm btn-secondary add-task-form mb-2" @click="addTask()">
+          <i class="fas fa-plus text-primary pb-2"></i>
         </button>
       </div>
     </div>

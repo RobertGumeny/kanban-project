@@ -1,25 +1,26 @@
 <template>
-  <div class="board container-fluid">
-    <div class="row mt-4">
+  <div class="board container-fluid bg-style">
+    <div class="row pt-4">
       <div class="col-sm-9">
         <div class="d-flex align-items-center">
           <h1>{{board.title}}</h1>
 
-          <button class="btn mb-2" @click="deleteBoard()">
-            <i class="fas fa-trash-alt text-danger"></i>
-          </button>
           <button
-            class="btn board-edit-button mb-2"
+            class="btn board-edit-button mb-2 mx-3 p-0"
             @click="triggerEdit()"
             data-toggle="modal"
             data-target="#editModal"
           >
             <i class="fas fa-pencil-alt text-warning"></i>
           </button>
+
+          <button class="btn board-delete-button mb-2 p-0" @click="deleteBoard()">
+            <i class="fas fa-trash-alt text-danger"></i>
+          </button>
         </div>
         <EditModal id="editModal" />
 
-        <h3 class="text-muted pl-3">{{board.description}}</h3>
+        <h3 class="text-dark pl-3">{{board.description}}</h3>
       </div>
       <div class="col-sm-3">
         <div class="form-row">
@@ -27,7 +28,7 @@
             <input
               type="text"
               class="form-control add-list-form"
-              placeholder="Add a list here..."
+              placeholder="Add a list..."
               v-model="newList.title"
             />
           </div>
@@ -39,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-4 mx-lg-1">
       <List v-for="list in lists" :listData="list" :key="list.id" />
     </div>
   </div>
@@ -96,8 +97,12 @@ export default {
 </script>
 
 <style scoped>
-.board-edit-button {
-  margin-left: -30px;
+.bg-style {
+  background-color: #8ec6e1;
+  height: 100vh;
+}
+.board-delete-button {
+  /* margin-left: -30px; */
 }
 .add-list-form {
   height: 75%;

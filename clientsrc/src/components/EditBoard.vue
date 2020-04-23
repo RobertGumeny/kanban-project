@@ -18,7 +18,7 @@
         v-model="board.description"
       />
     </div>
-    <button data-dismiss="modal" @click="editBoard()">Submit Changes</button>
+    <button data-dismiss="modal" class="btn btn-sm btn-primary" @click="editBoard()">Submit Changes</button>
   </div>
 </template>
 

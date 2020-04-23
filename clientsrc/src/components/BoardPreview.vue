@@ -1,6 +1,6 @@
 <template>
   <div class="board-preview col-sm-4">
-    <div class="card mb-3">
+    <div class="card my-3">
       <h3 class="text-wrap p-2">{{boardData.title}}</h3>
       <h6 class="text-muted text-wrap p-2">{{boardData.description}}</h6>
       <div class="text-center m-2">
@@ -46,4 +46,7 @@ export default {
 
 
 <style scoped>
+.card {
+  background-color: rgb(255, 255, 255);
+}
 </style>
