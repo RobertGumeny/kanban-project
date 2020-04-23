@@ -7,9 +7,9 @@
 
           <button
             class="btn board-edit-button mb-2 mx-3 p-0"
-            @click="triggerEdit()"
+            @click="triggerEditBoard()"
             data-toggle="modal"
-            data-target="#editModal"
+            data-target="#editBoardModal"
           >
             <i class="fas fa-pencil-alt text-warning"></i>
           </button>
@@ -18,26 +18,30 @@
             <i class="fas fa-trash-alt text-danger"></i>
           </button>
         </div>
-        <EditModal id="editModal" />
+        <EditModal id="editBoardModal" title="Edit your Board">
+          <EditBoard></EditBoard>
+        </EditModal>
 
         <h3 class="text-dark pl-3">{{board.description}}</h3>
       </div>
       <div class="col-sm-3">
-        <div class="form-row">
-          <div class="col-9">
-            <input
-              type="text"
-              class="form-control add-list-form"
-              placeholder="Add a list..."
-              v-model="newList.title"
-            />
+        <form action="submit" @submit.prevent="addList()">
+          <div class="form-row">
+            <div class="col-9">
+              <input
+                type="text"
+                class="form-control add-list-form"
+                placeholder="Add a list..."
+                v-model="newList.title"
+              />
+            </div>
+            <div class="col-3">
+              <button type="submit" class="btn border-none btn-primary mb-2 add-list-form">
+                <i class="fas fa-plus text-white pb-2"></i>
+              </button>
+            </div>
           </div>
-          <div class="col-3">
-            <button class="btn border-none btn-primary mb-2 add-list-form" @click="addList()">
-              <i class="fas fa-plus text-white pb-2"></i>
-            </button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
     <div class="row mt-4 mx-lg-1">
@@ -49,6 +53,7 @@
 <script>
 import List from "../components/List.vue";
 import EditModal from "../components/EditModal.vue";
+import EditBoard from "../components/EditBoard.vue";
 export default {
   name: "board",
   data() {
@@ -77,7 +82,7 @@ export default {
       this.$store.dispatch("deleteBoard", this.board.id);
       this.$router.push({ name: "boards" });
     },
-    triggerEdit() {
+    triggerEditBoard() {
       this.$store.commit("setActiveBoard", this.board);
     },
     addList() {
@@ -91,6 +96,7 @@ export default {
   props: ["boardId"],
   components: {
     EditModal,
+    EditBoard,
     List
   }
 };
