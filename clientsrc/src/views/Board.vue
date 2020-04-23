@@ -75,7 +75,6 @@ export default {
   mounted() {
     this.$store.dispatch("getBoardById", this.$route.params.boardId);
     this.$store.dispatch("getListsByBoardId", this.$route.params.boardId);
-    // console.log(this.$store.state.activeBoard);
   },
   methods: {
     deleteBoard() {
@@ -88,7 +87,6 @@ export default {
     addList() {
       this.newList.boardId = this.board.id;
       this.newList.creatorEmail = this.board.creatorEmail;
-      console.log(this.newList);
       this.$store.dispatch("addList", this.newList);
       this.newList = {};
     }

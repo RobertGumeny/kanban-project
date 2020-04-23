@@ -1,5 +1,5 @@
 <template>
-  <div class="list col-md-3 bg-dark mt-3 mx-2 p-2">
+  <div class="list col-md-3 bg-dark mt-3 mx-2 p-2 mb-2">
     <div class="d-flex justify-content-between align-items-center mr-1">
       <h3 class="text-light">{{listData.title}}</h3>
       <div>
@@ -80,7 +80,6 @@ export default {
     addTask() {
       this.newTask.listId = this.listData.id;
       this.newTask.creatorEmail = this.listData.creatorEmail;
-      console.log(this.newTask);
       this.$store.dispatch("addTask", this.newTask);
       this.newTask = {};
     },

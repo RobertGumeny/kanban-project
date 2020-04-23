@@ -43,4 +43,7 @@ export default {
   height: 2rem;
   border: 1px solid #e1eef4;
 }
+.border-bottom {
+  border: 2px solid #fff;
+}
 </style>

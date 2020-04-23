@@ -56,19 +56,21 @@
           ></comment>
         </ul>
 
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            placeholder="Add comment..."
-            v-model="newComment.body"
-          />
-          <div class="input-group-append">
-            <button class="btn btn-sm btn-primary" @click="addComment()">
-              <i class="fas fa-plus text-white"></i>
-            </button>
+        <form action="submit" @submit.prevent="addComment()">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              placeholder="Add comment..."
+              v-model="newComment.body"
+            />
+            <div class="input-group-append">
+              <button class="btn btn-sm btn-primary" type="submit">
+                <i class="fas fa-plus text-white"></i>
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </li>
   </div>
@@ -103,12 +105,10 @@ export default {
     markCompleteTask() {
       this.$store.dispatch("markTaskComplete", this.taskData);
       this.completed = true;
-      console.log("markTaskComplete");
     },
     markIncompleteTask() {
       this.$store.dispatch("markTaskIncomplete", this.taskData);
       this.completed = false;
-      console.log("markTaskIncomplete");
     },
     addComment() {
       this.newComment.taskId = this.taskData.id;
