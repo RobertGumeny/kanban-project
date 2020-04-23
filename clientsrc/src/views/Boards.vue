@@ -76,6 +76,5 @@ export default {
 <style scoped>
 .bg-style {
   background-color: #8ec6e1;
-  height: 100vh;
 }
 </style>

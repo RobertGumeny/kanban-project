@@ -22,6 +22,7 @@ export default new Vuex.Store({
     boards: [],
     activeBoard: {},
     activeLists: [],
+    activeList: {},
     tasks: {},
   },
   //SECTION MUTATIONS
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     },
     setActiveLists(state, lists) {
       state.activeLists = lists;
+    },
+    setActiveList(state, list) {
+      state.activeList = list;
     },
     setActiveTasks(state, payload) {
       Vue.set(state.tasks, payload.listId, payload.tasks);
@@ -82,7 +86,7 @@ export default new Vuex.Store({
 
     async addBoard({ commit, dispatch }, boardData) {
       try {
-        api.post("boards", boardData);
+        await api.post("boards", boardData);
         dispatch("getBoards");
       } catch (error) {
         console.error(error);
@@ -167,6 +171,24 @@ export default new Vuex.Store({
         dispatch("getTasksByListId", taskData.listId);
       } catch (error) {
         console.error(error);
+      }
+    },
+    async markTaskIncomplete({ commit, dispatch }, taskData) {
+      try {
+        await api.put("tasks/" + taskData.id, {
+          completed: false
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async markTaskComplete({ commit, dispatch }, taskData) {
+      try {
+        await api.put("tasks/" + taskData.id, {
+          completed: true
+        })
+      } catch (error) {
+        console.error(error)
       }
     },
     async moveTask({ commit, dispatch }, taskData) {
