@@ -1,6 +1,6 @@
 <template>
   <div class="EditList">
-    <form action="submit" @submit.prevent="editList()">
+    <form>
       <div class="form-group">
         <label for>Title</label>
         <input
@@ -11,7 +11,12 @@
         />
       </div>
 
-      <button data-dismiss="modal" class="btn btn-sm btn-primary" type="submit">Submit Changes</button>
+      <button
+        type="submit"
+        data-dismiss="modal"
+        class="btn btn-sm btn-primary"
+        @click="editList()"
+      >Submit Changes</button>
     </form>
   </div>
 </template>

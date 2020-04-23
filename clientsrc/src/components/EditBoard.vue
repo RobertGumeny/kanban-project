@@ -1,6 +1,6 @@
 <template>
   <div class="EditBoard">
-    <form action="submit" @submit.prevent="editBoard()">
+    <form>
       <div class="form-group">
         <label for>Title</label>
         <input
@@ -19,7 +19,12 @@
           v-model="board.description"
         />
       </div>
-      <button data-dismiss="modal" class="btn btn-sm btn-primary" type="submit">Submit Changes</button>
+      <button
+        type="submit"
+        data-dismiss="modal"
+        class="btn btn-sm btn-primary"
+        @click="editBoard()"
+      >Submit Changes</button>
     </form>
   </div>
 </template>
@@ -38,6 +43,7 @@ export default {
   },
   methods: {
     editBoard() {
+      console.log("Edit has fired");
       this.$store.dispatch("editBoard", this.board);
     }
   },
