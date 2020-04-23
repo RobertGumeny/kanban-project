@@ -2,10 +2,16 @@
   <div class="editModal modal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-info">Edit your Board</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span class="text-danger" aria-hidden="true">&times;</span>
+        <div class="modal-header bg-primary">
+          <h5 class="modal-title text-light">Edit your Board</h5>
+          <button
+            type="button"
+            class="close"
+            id="close-btn"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
@@ -32,4 +38,8 @@ export default {
 
 
 <style scoped>
+#close-btn {
+  text-shadow: none;
+  color: rgb(255, 56, 56);
+}
 </style>

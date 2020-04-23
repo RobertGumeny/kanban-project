@@ -1,10 +1,10 @@
 <template>
-  <div class="boards container-fluid">
+  <div class="boards container-fluid bg-style">
     <div class="row">
       <div class="col-sm-8 mx-auto my-4">
         <form @submit.prevent="addBoard">
           <div class="form-row">
-            <div class="col">
+            <div class="col-md-5">
               <input
                 class="form-control form-control-sm m-1"
                 type="text"
@@ -14,7 +14,7 @@
                 required
               />
             </div>
-            <div class="col">
+            <div class="col-md-5">
               <input
                 class="form-control form-control-sm m-1"
                 type="text"
@@ -23,8 +23,8 @@
                 v-model="newBoard.description"
               />
             </div>
-            <div class="col">
-              <button class="btn btn-sm btn-warning mt-1" type="submit">Create</button>
+            <div class="col-md-2 ml-2 ml-md-0">
+              <button class="btn btn-sm btn-primary mt-1" type="submit">Create</button>
             </div>
           </div>
         </form>
@@ -72,3 +72,10 @@ export default {
   components: { boardPreview }
 };
 </script>
+
+<style scoped>
+.bg-style {
+  background-color: #8ec6e1;
+  height: 100vh;
+}
+</style>

@@ -1,5 +1,7 @@
 <template>
-  <div class="comment border d-flex justify-content-between align-items-center">
+  <div
+    class="comment table-active border-light border-bottom d-flex justify-content-between align-items-center"
+  >
     <li class="pl-3">{{commentData.body}}</li>
     <button class="btn" @click="deleteComment()">
       <i class="fas fa-trash-alt text-muted fa-sm"></i>
