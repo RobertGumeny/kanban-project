@@ -12,7 +12,7 @@ let base = window.location.host.includes("localhost")
 
 let api = Axios.create({
   baseURL: base + "api/",
-  timeout: 9000,
+  timeout: 15000,
   withCredentials: true,
 });
 
