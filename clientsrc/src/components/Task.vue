@@ -1,6 +1,6 @@
 <template>
-  <div class="task">
-    <li class="card mb-4 p-1">
+  <div class="task" @dragstart="moveTask()">
+    <li class="card mb-0 p-1">
       <div class="d-flex align-items-center mb-0 task-title">
         <div class="form-check mb-3 mx-0 px-1">
           <label class="contain mb-3">
@@ -11,37 +11,16 @@
           </label>
         </div>
         <p class="font-weight-bold ml-0 mt-1">{{taskData.title}}</p>
-        <button class="btn ml-auto" @click="deleteTask()">
+        <button class="btn ml-auto" @click="deletePrompt()">
           <i class="fas fa-trash-alt text-muted fa-sm mb-3"></i>
         </button>
       </div>
 
-      <div class="move-task">
-        <div class="dropdown">
-          <button
-            class="btn btn-sm btn-outline-primary dropdown-toggle text-muted"
-            type="button"
-            id="dropdownMenu2"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >Move Task</button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <ListTarget
-              v-for="list in lists"
-              :key="list.id"
-              :targetData="list"
-              :taskData="taskData"
-            />
-          </div>
-        </div>
-      </div>
-
-      <button class="btn btn-sm" @click="showComments = false" v-if="showComments">
+      <button class="btn btn-sm btn-comments" @click="showComments = false" v-if="showComments">
         {{comments.length}} Comments
         <i class="fas fa-arrow-up"></i>
       </button>
-      <button class="btn btn-sm" @click="showComments = true" v-if="!showComments">
+      <button class="btn btn-sm btn-comments" @click="showComments = true" v-if="!showComments">
         {{comments.length}} Comments
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -99,6 +78,23 @@ export default {
     }
   },
   methods: {
+    deletePrompt() {
+      this.$swal
+        .fire({
+          title: "Are you sure you want to delete this task?",
+          text: "Once it has been deleted, it cannot be recovered.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#b83535",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Yes, delete it!"
+        })
+        .then(result => {
+          if (result.value) {
+            this.deleteTask();
+          }
+        });
+    },
     deleteTask() {
       this.$store.dispatch("deleteTask", this.taskData);
     },
@@ -115,6 +111,9 @@ export default {
       this.newComment.listId = this.taskData.listId;
       this.$store.dispatch("createComment", this.newComment);
       this.newComment = {};
+    },
+    moveTask() {
+      this.$emit("dragstart");
     }
   },
   components: { comment, ListTarget }
@@ -123,9 +122,8 @@ export default {
 
 
 <style scoped>
-.move-task {
+.btn-comments {
   margin-top: -20px;
-  padding-top: -20px;
 }
 .task-title {
   margin-bottom: 0px;

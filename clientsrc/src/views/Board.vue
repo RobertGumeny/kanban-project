@@ -14,7 +14,7 @@
             <i class="fas fa-pencil-alt text-warning"></i>
           </button>
 
-          <button class="btn board-delete-button mb-2 p-0" @click="deleteBoard()">
+          <button class="btn board-delete-button mb-2 p-0" @click="deletePrompt()">
             <i class="fas fa-trash-alt text-danger"></i>
           </button>
         </div>
@@ -77,6 +77,23 @@ export default {
     this.$store.dispatch("getListsByBoardId", this.$route.params.boardId);
   },
   methods: {
+    deletePrompt() {
+      this.$swal
+        .fire({
+          title: "Are you sure you want to delete this board?",
+          text: "Once it has been deleted, it cannot be recovered.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#b83535",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Yes, delete it!"
+        })
+        .then(result => {
+          if (result.value) {
+            this.deleteBoard();
+          }
+        });
+    },
     deleteBoard() {
       this.$store.dispatch("deleteBoard", this.board.id);
       this.$router.push({ name: "boards" });
@@ -104,9 +121,6 @@ export default {
 .bg-style {
   background-color: #8ec6e1;
   height: 100vh;
-}
-.board-delete-button {
-  /* margin-left: -30px; */
 }
 .add-list-form {
   height: 75%;

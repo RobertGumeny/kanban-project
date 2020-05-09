@@ -11,7 +11,7 @@
                 maxlength="50"
                 placeholder="Board title..."
                 v-model="newBoard.title"
-                required
+                requiredne
               />
             </div>
             <div class="col-md-5">

@@ -1,9 +1,12 @@
 import Vue from "vue";
+// @ts-ignore
 import App from "./App.vue";
-import router from "./router";
-import store from "./store";
-import { Auth0Plugin } from "@bcwdev/auth0-vue";
+import router from "./router"; // this.$router
+import store from "./store"; // this.$store
+import { Auth0Plugin } from "@bcwdev/auth0-vue"; //$ this.$auth
 import { domain, clientId, audience } from "./authConfig";
+import VueSweetalert2 from 'vue-sweetalert2'; // this.$swal
+import 'sweetalert2/dist/sweetalert2.min.css'
 
 Vue.use(Auth0Plugin, {
   domain,
@@ -17,6 +20,8 @@ Vue.use(Auth0Plugin, {
     );
   }
 });
+
+Vue.use(VueSweetalert2)
 
 new Vue({
   router,

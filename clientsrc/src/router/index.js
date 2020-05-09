@@ -1,7 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
+// @ts-ignore
 import Home from "../views/Home.vue";
+// @ts-ignore
 import Boards from "../views/Boards.vue";
+// @ts-ignore
 import Board from "../views/Board.vue";
 import { authGuard } from "@bcwdev/auth0-vue";
 

@@ -5,7 +5,7 @@
       <h6 class="text-muted text-wrap p-2">{{boardData.description}}</h6>
       <div class="text-center m-2">
         <button class="btn btn-sm btn-outline-primary" @click="openBoard()">Open</button>
-        <button class="btn btn-sm btn-outline-danger" @click="deleteBoard()">Delete</button>
+        <button class="btn btn-sm btn-outline-danger" @click="deletePrompt()">Delete</button>
       </div>
     </div>
   </div>
@@ -29,6 +29,23 @@ export default {
     }
   },
   methods: {
+    deletePrompt() {
+      this.$swal
+        .fire({
+          title: "Are you sure you want to delete this board?",
+          text: "Once it has been deleted, it cannot be recovered.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#b83535",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Yes, delete it!"
+        })
+        .then(result => {
+          if (result.value) {
+            this.deleteBoard();
+          }
+        });
+    },
     deleteBoard() {
       this.$store.dispatch("deleteBoard", this.boardData.id);
     },

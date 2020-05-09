@@ -1,5 +1,10 @@
 <template>
-  <div class="list col-md-3 bg-dark mt-3 mx-2 p-2 mb-2">
+  <div
+    class="list col-md-3 bg-dark mt-3 mx-2 p-2 mb-2"
+    dropzone="zone"
+    @drop.prevent="moveTask(listData)"
+    @dragover.prevent
+  >
     <div class="d-flex justify-content-between align-items-center mr-1">
       <h3 class="text-light">{{listData.title}}</h3>
       <div>
@@ -11,7 +16,7 @@
         >
           <i class="fas fa-pencil-alt text-warning"></i>
         </button>
-        <button class="btn mb-2 p-0" @click="deleteList()">
+        <button class="btn mb-2 p-0" @click="deletePrompt()">
           <i class="fas fa-trash-alt text-danger fa-sm"></i>
         </button>
       </div>
@@ -22,7 +27,13 @@
     </EditModal>
 
     <ul class="list-unstyled">
-      <Task v-for="task in tasks" :taskData="task" :key="task.id" />
+      <Task
+        v-for="(task, index) in tasks"
+        :taskData="task"
+        :key="task.id"
+        draggable="true"
+        @dragstart="reorderTask(task, index)"
+      />
     </ul>
 
     <form action="submit" @submit.prevent="addTask()">
@@ -70,9 +81,29 @@ export default {
     },
     tasks() {
       return this.$store.state.tasks[this.listData.id];
+    },
+    tempData() {
+      return this.$store.state.tempTask;
     }
   },
   methods: {
+    deletePrompt() {
+      this.$swal
+        .fire({
+          title: "Are you sure you want to delete this list?",
+          text: "Once it has been deleted, it cannot be recovered.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#b83535",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Yes, delete it!"
+        })
+        .then(result => {
+          if (result.value) {
+            this.deleteList();
+          }
+        });
+    },
     deleteList() {
       this.$store.dispatch("deleteList", this.listData);
       this.$store.dispatch("getBoardById", this.board.id);
@@ -85,6 +116,21 @@ export default {
     },
     triggerEditList() {
       this.$store.commit("setActiveList", this.listData);
+    },
+    reorderTask(task, index) {
+      this.$store.dispatch("setTaskToMove", {
+        task: task,
+        oldList: this.listData
+      });
+    },
+    moveTask(listData) {
+      let transferData = {
+        newListId: listData.id,
+        oldListId: this.tempData.oldList.id,
+        taskId: this.tempData.task._id,
+        taskToMove: this.tempData.task
+      };
+      this.$store.dispatch("moveTask", transferData);
     }
   },
   components: {
@@ -97,6 +143,9 @@ export default {
 
 
 <style scoped>
+.list {
+  border-radius: 4px;
+}
 .add-task-form {
   height: 75%;
 }

@@ -24,6 +24,7 @@ export default new Vuex.Store({
     activeLists: [],
     activeList: {},
     tasks: {},
+    tempTask: {}
   },
   //SECTION MUTATIONS
   mutations: {
@@ -45,6 +46,17 @@ export default new Vuex.Store({
     setActiveTasks(state, payload) {
       Vue.set(state.tasks, payload.listId, payload.tasks);
     },
+    setTaskToMove(state, taskData) {
+      state.tempTask = taskData;
+    },
+    removeFromList(state, payload) {
+      let list = state.activeLists.find(l => l.id == payload.oldListId)
+      list.tasks = list.tasks.filter(t => t.id != payload.taskToMove.id)
+    },
+    addToList(state, payload) {
+      let list = state.activeLists.find(l => l.id == payload.newListId)
+      list.tasks.push(payload.taskToMove)
+    }
   },
   actions: {
     //#SECTION Auth Stuff
@@ -191,17 +203,6 @@ export default new Vuex.Store({
         console.error(error)
       }
     },
-    async moveTask({ commit, dispatch }, taskData) {
-      try {
-        await api.put("tasks/" + taskData.taskId, {
-          listId: taskData.newListId,
-        });
-        dispatch("getTasksByListId", taskData.newListId);
-        dispatch("getTasksByListId", taskData.oldListId);
-      } catch (error) {
-        console.error(error);
-      }
-    },
 
     //!SECTION
 
@@ -228,6 +229,25 @@ export default new Vuex.Store({
       }
     },
 
+    //!SECTION
+    //SECTION Drag and drop stuff
+
+    setTaskToMove({ commit, dispatch }, taskData) {
+      commit("setTaskToMove", taskData)
+    },
+    async moveTask({ commit, dispatch }, taskData) {
+      try {
+        await api.put("tasks/" + taskData.taskId, {
+          listId: taskData.newListId,
+        });
+        // commit("removeFromList", taskData)
+        // commit("addToList", taskData)
+        dispatch("getTasksByListId", taskData.newListId);
+        dispatch("getTasksByListId", taskData.oldListId);
+      } catch (error) {
+        console.error(error);
+      }
+    }
     //!SECTION
   },
 });

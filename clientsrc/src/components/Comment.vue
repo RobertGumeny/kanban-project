@@ -4,7 +4,7 @@
     <li>
       <p class="pl-1 small mb-0 text-dark">{{commentData.body}}</p>
     </li>
-    <button class="btn ml-auto" @click="deleteComment()">
+    <button class="btn ml-auto" @click="deletePrompt()">
       <i class="fas fa-trash-alt text-muted fa-sm"></i>
     </button>
   </div>
@@ -24,6 +24,23 @@ export default {
     }
   },
   methods: {
+    deletePrompt() {
+      this.$swal
+        .fire({
+          title: "Are you sure you want to delete this comment?",
+          text: "Once it has been deleted, it cannot be recovered.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#b83535",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Yes, delete it!"
+        })
+        .then(result => {
+          if (result.value) {
+            this.deleteComment();
+          }
+        });
+    },
     deleteComment() {
       this.$store.dispatch("deleteComment", {
         comment: this.commentData,
